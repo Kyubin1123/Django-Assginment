@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+    <div class="Ul">
+        <h1>User List</h1>
+        <ul>
+            {% for user in data %}
+                <li>
+                    <a href="{% url 'user_info' user.id %}">{{ user.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
