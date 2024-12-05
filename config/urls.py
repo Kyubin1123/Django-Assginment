@@ -40,9 +40,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("users/", user_list, name='user_list'),
     path("users/<int:user_id>/", user_info, name='user_info'),
+
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/login/', user_views.login, name='login'),
-    path('accounts/signup/', user_views.sign_up, name='sign_up'),
+    path('accounts/signup/', user_views.sign_up, name='signup'),
 
     path('todo/', todo_list, name='todo_list'),
     path('todo/create/', todo_create, name='todo_create'),
