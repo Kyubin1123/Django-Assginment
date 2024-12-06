@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Create</title>
+</head>
+<body>
+{% extends 'todo/base.html' %}
+{% block content %}
+<div class="container" style="margin-top: 15px">
+  {% if request.user.is_authenticated %}
+    <form class="todo-create-form" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+    </form>
+  {% endif %}
+</div>
+{% endblock %}
+</body>
+</html>
