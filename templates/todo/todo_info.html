@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-{% extends 'base.html' %}
+{% extends 'todo/base.html' %}
 {% block content %}
   <div class="container">
     <div style="display: flex; justify-content: space-between;">
@@ -21,7 +21,7 @@
     </div>
     <table>
       {% for key, value in todo.items %}
-        {% if key != 'title' and key != 'id' and key != 'user_id' and key != '_state %}
+        {% if key != 'title' and key != 'id' and key != 'user_id' and key != '_state' %}
           <tr>
             <th>{{ key }}</th>
             <td>{{ value }}</td>
