@@ -7,7 +7,7 @@
 <body>
     <nav style="display: flex; justify-content: space-between">
         <div>
-            <a style="font-size: 15px" href="{% url 'todo_list' %}"> HOME </a>
+            <a style="font-size: 15px" href="{% url 'cbv_todo_list' %}"> HOME </a>
         </div>
         {% if request.user.is_authenticated %}
             <div style="text-align: right; font-size: 15px; display: flex; justify-content: space-between">

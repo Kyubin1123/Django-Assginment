@@ -12,7 +12,7 @@
         {% if request.user.is_authenticated %}
         <div style="display: flex; justify-content: space-between">
             <h1>{{ request.user.username }}'s Todo List</h1>
-            <button class="create-button" onclick="location.href='{% url 'todo_create' %}'">
+            <button class="create-button" onclick="location.href='{% url 'cbv_todo_create' %}'">
                 생성하기
             </button>
         </div>
@@ -23,7 +23,7 @@
         <ul>
             {% for todo in page_obj.object_list %}
                 <li>
-                    <a href="{% url 'todo_info' todo.id %}">
+                    <a href="{% url 'cbv_todo_info' todo.id %}">
                         {{ todo.title }}
                     </a>
                 </li>
