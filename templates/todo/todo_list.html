@@ -1,58 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 {% extends 'todo/base.html' %}
 {% block content %}
-
-    <div class="container" style="margin-top: 15px">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2ebe0;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #333333;
+    }
+    .todo-list-item {
+        padding: 10px;
+        margin: 5px 0;
+        background: #cab387;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .todo-list-item:hover {
+        background: #c09247;
+    }
+    .pagination p {
+        color: gray;
+        text-decoration: none;
+        transition: background-color .3s;
+        margin: 0;
+    }
+    .pagination p:hover {
+        background-color: #dddddd;
+        border-radius: 5px;
+        cursor: not-allowed;
+    }
+</style>
+    <div class="container mt-lg-5">
         {% if request.user.is_authenticated %}
-        <div style="display: flex; justify-content: space-between">
-            <h1>{{ request.user.username }}'s Todo List</h1>
-            <button class="create-button" onclick="location.href='{% url 'cbv_todo_create' %}'">
-                생성하기
-            </button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            {% if not request.user.is_staff %}
+                <h1>{{ request.user.username }}'s Todo List</h1>
+            {% else %}
+                <h1>All To Do List (By. Admin)</h1>
+            {% endif %}
+            <button class="btn btn-success" onclick="location.href='{% url 'cbv_todo_create' %}'">생성하기</button>
         </div>
-        <form method="GET" style="margin: 10px">
-            <input type="text" placeholder="제목 또는 내용을 입력하세요." name="q" value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
-            <button class="search-button">Search</button>
+        <form method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="제목 또는 내용을 입력하세요." name="q" value="{% if request.GET.q %}{{ request.GET.q }}{% endif %}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
         </form>
-        <ul>
+        <ul class="list-unstyled">
             {% for todo in page_obj.object_list %}
-                <li>
+                <li class="todo-list-item">
                     <a href="{% url 'cbv_todo_info' todo.id %}">
-                        {{ todo.title }}
+                        [{{ todo.user.username}}] {{ todo.title }}
                     </a>
                 </li>
             {% endfor %}
         </ul>
-
-        <div class="pagination">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; First</a>
-                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            {% else %}
-                <p>&laquo; First</p>
-                <p>Previous</p>
-            {% endif %}
-
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number|add:-3 and num < page.obj.number|add:3 %}
-                    {% if num == page_obj.number %}
-                        <span class="active" style="border-radius: 4px; background-color: #fff122">
-                            {{ num }}
-                        </span>
-                    {% else %}
-                        <a href="?page={{ num }}">{{ num }}</a>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-        </div>
+        {% include 'todo/pagination.html' %}
         {% endif %}
     </div>
 {% endblock %}
-</body>
-</html>
