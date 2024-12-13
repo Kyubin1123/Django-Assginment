@@ -7,6 +7,8 @@ from django.db.models import Q
 from todo.forms import CommentForm
 from todo.models import Todo, Comment
 
+from django.core.paginator import Paginator
+
 class TodoListView(LoginRequiredMixin, ListView):
     queryset = Todo.objects.all()
     template_name = 'todo/todo_list.html'
@@ -18,13 +20,10 @@ class TodoListView(LoginRequiredMixin, ListView):
         if self.request.user.is_superuser:
             queryset = super().get_queryset()
 
-            q = self.request.GET.get('q')
-            if q:
-                queryset = queryset.filter(
-                    Q(title__icontains=q) |
-                    Q(content__icontains=q)
-                )
-            return queryset
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(Q(title__icontains=q) | Q(content__icontains=q))
+        return queryset
 
 class TodoDetailView(LoginRequiredMixin, DetailView):
     model = Todo
@@ -72,6 +71,7 @@ class TodoUpdateView(LoginRequiredMixin, UpdateView):
 
         if obj.user != self.request.user and not self.request.user.is_superuser:
             raise Http404('ToDo를 수정할 권한이 없습니다.')
+        return obj
 
     def get_success_url(self):
         return reverse_lazy('cbv_todo_info', kwargs={'pk':self.object.id})
@@ -84,6 +84,7 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
 
         if obj.user != self.request.user and not self.request.user.is_superuser:
             raise Http404('ToDo를 삭제할 권한이 없습니다.')
+        return obj
 
     def get_success_url(self):
         return reverse_lazy('cbv_todo_list')

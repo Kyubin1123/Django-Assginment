@@ -8,12 +8,13 @@
 {% extends 'todo/base.html' %}
 {% block content %}
 <div class="container" style="margin-top: 15px">
-  {% if request.user.is_authenticated %}
-    <form class="todo-create-form" method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-    </form>
-  {% endif %}
+    {% if request.user.is_authenticated %}
+        <form class="todo-create-form" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="create-button">Create</button>
+        </form>
+    {% endif %}
 </div>
 {% endblock %}
 </body>
